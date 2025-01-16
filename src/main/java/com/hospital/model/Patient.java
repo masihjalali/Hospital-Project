@@ -104,19 +104,4 @@ public class Patient {
         this.dischargeDate = dischargeDate;
     }
 
-    // toString Method
-    @Override
-    public String toString() {
-        return "Patient{" +
-                "id='" + id + '\\'' +
-                ", name='" + name + '\\'' +
-                ", age=" + age +
-                ", gender='" + gender + '\\'' +
-                ", contactNumber='" + contactNumber + '\\'' +
-                ", healthStatus='" + healthStatus + '\\'' +
-                ", allocatedRoom='" + allocatedRoom + '\\'' +
-                ", admissionDate=" + admissionDate +
-                ", dischargeDate=" + dischargeDate +
-                '}';
-    }
 }

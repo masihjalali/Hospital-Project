@@ -73,15 +73,4 @@ public class Service {
         this.responsibleStaff.remove(staffId);
     }
 
-    // toString Method
-    @Override
-    public String toString() {
-        return "Service{" +
-                "serviceId='" + serviceId + '\\'' +
-                ", serviceName='" + serviceName + '\\'' +
-                ", cost=" + cost +
-                ", description='" + description + '\\'' +
-                ", responsibleStaff=" + responsibleStaff +
-                '}';
-    }
 }

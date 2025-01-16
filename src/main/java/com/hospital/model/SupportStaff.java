@@ -62,15 +62,4 @@ public class SupportStaff {
         this.assignedSection = assignedSection;
     }
 
-    // toString Method
-    @Override
-    public String toString() {
-        return "SupportStaff{" +
-                "staffId='" + staffId + '\\'' +
-                ", name='" + name + '\\'' +
-                ", role='" + role + '\\'' +
-                ", contactNumber='" + contactNumber + '\\'' +
-                ", assignedSection='" + assignedSection + '\\'' +
-                '}';
-    }
 }

@@ -73,15 +73,5 @@ public class Nurse {
         this.assignedPatients.remove(patientId);
     }
 
-    // toString Method
-    @Override
-    public String toString() {
-        return "Nurse{" +
-                "nurseId='" + nurseId + '\\'' +
-                ", name='" + name + '\\'' +
-                ", assignedDepartment='" + assignedDepartment + '\\'' +
-                ", contactNumber='" + contactNumber + '\\'' +
-                ", assignedPatients=" + assignedPatients +
-                '}';
-    }
+
 }

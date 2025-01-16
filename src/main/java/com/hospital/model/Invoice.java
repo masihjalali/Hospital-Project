@@ -84,16 +84,4 @@ public class Invoice {
         this.roomId = roomId;
     }
 
-    // toString Method
-    @Override
-    public String toString() {
-        return "Invoice{" +
-                "invoiceId='" + invoiceId + '\\'' +
-                ", dateIssued=" + dateIssued +
-                ", patientId='" + patientId + '\\'' +
-                ", serviceList=" + serviceList +
-                ", totalAmount=" + totalAmount +
-                ", roomId='" + roomId + '\\'' +
-                '}';
-    }
 }

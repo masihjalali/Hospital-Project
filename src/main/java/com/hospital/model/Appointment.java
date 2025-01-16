@@ -65,14 +65,5 @@ public class Appointment {
     }
 
     // toString Method
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "appointmentId='" + appointmentId + '\\'' +
-                ", patientId='" + patientId + '\\'' +
-                ", doctorId='" + doctorId + '\\'' +
-                ", appointmentDate=" + appointmentDate +
-                ", status='" + status + '\\'' +
-                '}';
-    }
+
 }

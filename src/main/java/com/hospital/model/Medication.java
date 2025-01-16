@@ -52,14 +52,5 @@ public class Medication {
         this.cost = cost;
     }
 
-    // toString Method
-    @Override
-    public String toString() {
-        return "Medication{" +
-                "medicationId='" + medicationId + '\\'' +
-                ", medicationName='" + medicationName + '\\'' +
-                ", description='" + description + '\\'' +
-                ", cost=" + cost +
-                '}';
-    }
+
 }

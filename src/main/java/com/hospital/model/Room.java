@@ -87,16 +87,4 @@ public class Room {
         this.patientsInRoom.remove(patientId);
     }
 
-    // toString Method
-    @Override
-    public String toString() {
-        return "Room{" +
-                "roomId='" + roomId + '\\'' +
-                ", roomNumber='" + roomNumber + '\\'' +
-                ", capacity=" + capacity +
-                ", roomType='" + roomType + '\\'' +
-                ", status='" + status + '\\'' +
-                ", patientsInRoom=" + patientsInRoom +
-                '}';
-    }
 }

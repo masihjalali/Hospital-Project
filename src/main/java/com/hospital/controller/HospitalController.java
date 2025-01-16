@@ -122,9 +122,9 @@ public class HospitalController {
         }
     }
 
-    public List<Administrator> getAllAdministrators() {
+    public ArrayList<Administrator> getAllAdministrators() {
         String query = "SELECT * FROM administrators";
-        List<Administrator> admins = new ArrayList<>();
+        ArrayList<Administrator> admins = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -241,6 +241,112 @@ public class HospitalController {
             System.out.println("Medication deleted successfully.");
         } catch (SQLException e) {
             throw new RuntimeException("Error deleting medication", e);
+        }
+    }
+
+    // Add a new service
+    public void addService(Service service) {
+        String query = "INSERT INTO services (id, name, cost, description, responsible_staff) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, service.getServiceId());
+            stmt.setString(2, service.getServiceName());
+            stmt.setDouble(3, service.getCost());
+            stmt.setString(4, service.getDescription());
+            stmt.setString(5, String.join(",", service.getResponsibleStaff()));
+
+            stmt.executeUpdate();
+            System.out.println("Service added successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error adding service", e);
+        }
+    }
+
+    // Retrieve all services
+    public ArrayList<Service> getAllServices() {
+        ArrayList<Service> services = new ArrayList<>();
+        String query = "SELECT * FROM services";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                Service service = new Service(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getDouble("cost"),
+                        rs.getString("description")
+                );
+                String[] staff = rs.getString("responsible_staff").split(",");
+                for (String member : staff) {
+                    service.addResponsibleStaff(member);
+                }
+                services.add(service);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving services", e);
+        }
+        return services;
+    }
+
+    // Retrieve a service by ID
+    public Service getServiceById(String id) {
+        String query = "SELECT * FROM services WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Service service = new Service(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getDouble("cost"),
+                        rs.getString("description")
+                );
+                String[] staff = rs.getString("responsible_staff").split(",");
+                for (String member : staff) {
+                    service.addResponsibleStaff(member);
+                }
+                return service;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving service by ID", e);
+        }
+        return null;
+    }
+
+    // Update a service
+    public void updateService(Service service) {
+        String query = "UPDATE services SET name = ?, cost = ?, description = ?, responsible_staff = ? WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, service.getServiceName());
+            stmt.setDouble(2, service.getCost());
+            stmt.setString(3, service.getDescription());
+            stmt.setString(4, String.join(",", service.getResponsibleStaff()));
+            stmt.setString(5, service.getServiceId());
+
+            stmt.executeUpdate();
+            System.out.println("Service updated successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating service", e);
+        }
+    }
+
+    // Delete a service by ID
+    public void deleteServiceById(String id) {
+        String query = "DELETE FROM services WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+            System.out.println("Service deleted successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting service", e);
         }
     }
 
