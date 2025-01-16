@@ -64,10 +64,10 @@ public class SupportStaffTab {
 
     private void loadSupportStaffData() {
         tableModel.setRowCount(0); // Clear existing rows
-        List<SupportStaff> staffList = controller.getAllSupportStaff();
+        ArrayList<SupportStaff> staffList = controller.getAllSupportStaff();
         for (SupportStaff staff : staffList) {
             tableModel.addRow(new Object[]{
-                    staff.getId(),
+                    staff.getStaffId(),
                     staff.getName(),
                     staff.getRole(),
                     staff.getContactNumber(),

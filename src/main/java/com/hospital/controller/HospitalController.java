@@ -192,9 +192,9 @@ public class HospitalController {
         }
     }
 
-    public List<Medication> getAllMedications() {
+    public ArrayList<Medication> getAllMedications() {
         String query = "SELECT * FROM medications";
-        List<Medication> medications = new ArrayList<>();
+        ArrayList<Medication> medications = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
@@ -350,6 +350,209 @@ public class HospitalController {
         }
     }
 
+    // Add a new nurse
+    public void addNurse(Nurse nurse) {
+        String query = "INSERT INTO nurses (id, name, assigned_department, contact, assigned_patients) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, nurse.getNurseId());
+            stmt.setString(2, nurse.getName());
+            stmt.setString(3, nurse.getAssignedDepartment());
+            stmt.setString(4, nurse.getContactNumber());
+            stmt.setString(5, String.join(",", nurse.getAssignedPatients()));
+
+            stmt.executeUpdate();
+            System.out.println("Nurse added successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error adding nurse", e);
+        }
+    }
+
+    // Retrieve all nurses
+    public ArrayList<Nurse> getAllNurses() {
+        ArrayList<Nurse> nurses = new ArrayList<>();
+        String query = "SELECT * FROM nurses";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                Nurse nurse = new Nurse(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("assigned_department"),
+                        rs.getString("contact")
+                );
+                String[] patients = rs.getString("assigned_patients").split(",");
+                for (String patient : patients) {
+                    nurse.addAssignedPatient(patient);
+                }
+                nurses.add(nurse);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving nurses", e);
+        }
+        return nurses;
+    }
+
+    // Retrieve a nurse by ID
+    public Nurse getNurseById(String id) {
+        String query = "SELECT * FROM nurses WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Nurse nurse = new Nurse(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("assigned_department"),
+                        rs.getString("contact")
+                );
+                String[] patients = rs.getString("assigned_patients").split(",");
+                for (String patient : patients) {
+                    nurse.addAssignedPatient(patient);
+                }
+                return nurse;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving nurse by ID", e);
+        }
+        return null;
+    }
+
+    // Update a nurse
+    public void updateNurse(Nurse nurse) {
+        String query = "UPDATE nurses SET name = ?, assigned_department = ?, contact = ?, assigned_patients = ? WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, nurse.getName());
+            stmt.setString(2, nurse.getAssignedDepartment());
+            stmt.setString(3, nurse.getContactNumber());
+            stmt.setString(4, String.join(",", nurse.getAssignedPatients()));
+            stmt.setString(5, nurse.getNurseId());
+
+            stmt.executeUpdate();
+            System.out.println("Nurse updated successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating nurse", e);
+        }
+    }
+
+    // Delete a nurse by ID
+    public void deleteNurseById(String id) {
+        String query = "DELETE FROM nurses WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+            System.out.println("Nurse deleted successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting nurse", e);
+        }
+    }
+    // Add a new support staff
+    public void addSupportStaff(SupportStaff staff) {
+        String query = "INSERT INTO support_staff (id, name, role, contact, assigned_section) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, staff.getStaffId());
+            stmt.setString(2, staff.getName());
+            stmt.setString(3, staff.getRole());
+            stmt.setString(4, staff.getContactNumber());
+            stmt.setString(5, staff.getAssignedSection());
+
+            stmt.executeUpdate();
+            System.out.println("Support staff added successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error adding support staff", e);
+        }
+    }
+
+    // Retrieve all support staff
+    public ArrayList<SupportStaff> getAllSupportStaff() {
+        ArrayList<SupportStaff> staffList = new ArrayList<>();
+        String query = "SELECT * FROM support_staff";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                SupportStaff staff = new SupportStaff(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("role"),
+                        rs.getString("contact"),
+                        rs.getString("assigned_section")
+                );
+                staffList.add(staff);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving support staff", e);
+        }
+        return staffList;
+    }
+
+    // Retrieve a support staff by ID
+    public SupportStaff getSupportStaffById(String id) {
+        String query = "SELECT * FROM support_staff WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new SupportStaff(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("role"),
+                        rs.getString("contact"),
+                        rs.getString("assigned_section")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving support staff by ID", e);
+        }
+        return null;
+    }
+
+    // Update a support staff
+    public void updateSupportStaff(SupportStaff staff) {
+        String query = "UPDATE support_staff SET name = ?, role = ?, contact = ?, assigned_section = ? WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, staff.getName());
+            stmt.setString(2, staff.getRole());
+            stmt.setString(3, staff.getContactNumber());
+            stmt.setString(4, staff.getAssignedSection());
+            stmt.setString(5, staff.getStaffId());
+
+            stmt.executeUpdate();
+            System.out.println("Support staff updated successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating support staff", e);
+        }
+    }
+
+    // Delete a support staff by ID
+    public void deleteSupportStaffById(String id) {
+        String query = "DELETE FROM support_staff WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+            System.out.println("Support staff deleted successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting support staff", e);
+        }
+    }
     // Add similar methods for other models like Appointment, Doctor, Invoice, Medication, Nurse, Room, Service, SupportStaff
 
 }

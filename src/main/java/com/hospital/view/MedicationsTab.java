@@ -64,7 +64,7 @@ public class MedicationsTab {
 
     private void loadMedicationsData() {
         tableModel.setRowCount(0); // Clear existing rows
-        List<Medication> medications = controller.getAllMedications();
+        ArrayList<Medication> medications = controller.getAllMedications();
         for (Medication medication : medications) {
             tableModel.addRow(new Object[]{
                     medication.getMedicationId(),

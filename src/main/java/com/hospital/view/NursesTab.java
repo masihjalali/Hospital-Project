@@ -64,10 +64,10 @@ public class NursesTab {
 
     private void loadNursesData() {
         tableModel.setRowCount(0); // Clear existing rows
-        List<Nurse> nurses = controller.getAllNurses();
+        ArrayList <Nurse> nurses = controller.getAllNurses();
         for (Nurse nurse : nurses) {
             tableModel.addRow(new Object[]{
-                    nurse.getId(),
+                    nurse.getNurseId(),
                     nurse.getName(),
                     nurse.getAssignedDepartment(),
                     nurse.getContactNumber(),
