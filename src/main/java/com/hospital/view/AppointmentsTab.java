@@ -64,13 +64,13 @@ public class AppointmentsTab {
 
     private void loadAppointmentsData() {
         tableModel.setRowCount(0); // Clear existing rows
-        List<Appointment> appointments = controller.getAllAppointments();
+        ArrayList<Appointment> appointments = controller.getAllAppointments();
         for (Appointment appointment : appointments) {
             tableModel.addRow(new Object[]{
                     appointment.getAppointmentId(),
                     appointment.getPatientId(),
                     appointment.getDoctorId(),
-                    appointment.getDateTime(),
+                    appointment.getAppointmentDate(),
                     appointment.getStatus()
             });
         }
@@ -105,7 +105,7 @@ public class AppointmentsTab {
                     idField.getText(),
                     patientIdField.getText(),
                     doctorIdField.getText(),
-                    dateTimeField.getText(),
+                    new Date(dateTimeField.getText()),
                     statusField.getText()
             );
             controller.addAppointment(appointment);
@@ -132,7 +132,7 @@ public class AppointmentsTab {
 
         JTextField patientIdField = new JTextField(appointment.getPatientId());
         JTextField doctorIdField = new JTextField(appointment.getDoctorId());
-        JTextField dateTimeField = new JTextField(appointment.getDateTime());
+        JTextField dateTimeField = new JTextField(appointment.getAppointmentDate().toString());
         JTextField statusField = new JTextField(appointment.getStatus());
 
         dialog.add(new JLabel("Patient ID:"));
@@ -148,7 +148,7 @@ public class AppointmentsTab {
         saveButton.addActionListener(e -> {
             appointment.setPatientId(patientIdField.getText());
             appointment.setDoctorId(doctorIdField.getText());
-            appointment.setDateTime(dateTimeField.getText());
+            appointment.setAppointmentDate(new Date(dateTimeField.getText()));
             appointment.setStatus(statusField.getText());
             controller.addAppointment(appointment);
             loadAppointmentsData();

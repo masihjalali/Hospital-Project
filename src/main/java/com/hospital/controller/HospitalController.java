@@ -553,6 +553,106 @@ public class HospitalController {
             throw new RuntimeException("Error deleting support staff", e);
         }
     }
+
+    // Add a new appointment
+    public void addAppointment(Appointment appointment) {
+        String query = "INSERT INTO appointments (id, patient_id, doctor_id, date_time, status) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, appointment.getAppointmentId());
+            stmt.setString(2, appointment.getPatientId());
+            stmt.setString(3, appointment.getDoctorId());
+            stmt.setString(4, appointment.getAppointmentId());
+            stmt.setString(5, appointment.getStatus());
+
+            stmt.executeUpdate();
+            System.out.println("Appointment added successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error adding appointment", e);
+        }
+    }
+
+    // Retrieve all appointments
+    public ArrayList<Appointment> getAllAppointments() {
+        ArrayList<Appointment> appointments = new ArrayList<>();
+        String query = "SELECT * FROM appointments";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                Appointment appointment = new Appointment(
+                        rs.getString("id"),
+                        rs.getString("patient_id"),
+                        rs.getString("doctor_id"),
+                        rs.getDate("date_time"),
+                        rs.getString("status")
+                );
+                appointments.add(appointment);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving appointments", e);
+        }
+        return appointments;
+    }
+
+    // Retrieve an appointment by ID
+    public Appointment getAppointmentById(String id) {
+        String query = "SELECT * FROM appointments WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Appointment(
+                        rs.getString("id"),
+                        rs.getString("patient_id"),
+                        rs.getString("doctor_id"),
+                        rs.getDate("date_time"),
+                        rs.getString("status")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving appointment by ID", e);
+        }
+        return null;
+    }
+
+    // Update an appointment
+    public void updateAppointment(Appointment appointment) {
+        String query = "UPDATE appointments SET patient_id = ?, doctor_id = ?, date_time = ?, status = ? WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, appointment.getPatientId());
+            stmt.setString(2, appointment.getDoctorId());
+            stmt.setString(3, appointment.getAppointmentId());
+            stmt.setString(4, appointment.getStatus());
+            stmt.setString(5, appointment.getAppointmentId());
+
+            stmt.executeUpdate();
+            System.out.println("Appointment updated successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating appointment", e);
+        }
+    }
+
+    // Delete an appointment by ID
+    public void deleteAppointmentById(String id) {
+        String query = "DELETE FROM appointments WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+            System.out.println("Appointment deleted successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting appointment", e);
+        }
     // Add similar methods for other models like Appointment, Doctor, Invoice, Medication, Nurse, Room, Service, SupportStaff
 
+
+    }
 }
