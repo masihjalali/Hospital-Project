@@ -1,8 +1,8 @@
-// Path: src/main/java/com/hospital/model/Invoice.java
 package com.hospital.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Class representing an Invoice in the hospital management system.
@@ -10,21 +10,21 @@ import java.util.List;
 public class Invoice {
 
     // Attributes
-    private String invoiceId;
-    private Date dateIssued;
+    private String invoiceId; // Invoice ID
+    private Date dateIssued; // Date when the invoice was issued
     private String patientId; // ID of the patient
     private List<String> serviceList; // List of service IDs
-    private double totalAmount;
-    private String roomId; // Room associated with the invoice, if applicable
+    private double totalAmount; // Total amount of the invoice
+    private String roomId; // Room ID associated with the invoice
 
     // Constructor
-    public Invoice(String invoiceId, Date dateIssued, String patientId, List<String> serviceList, double totalAmount, String roomId) {
+    public Invoice(String invoiceId, Date dateIssued, String patientId, double totalAmount, String roomId) {
         this.invoiceId = invoiceId;
         this.dateIssued = dateIssued;
         this.patientId = patientId;
-        this.serviceList = serviceList;
         this.totalAmount = totalAmount;
         this.roomId = roomId;
+        this.serviceList = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -60,6 +60,14 @@ public class Invoice {
         this.serviceList = serviceList;
     }
 
+    public void addService(String serviceId) {
+        this.serviceList.add(serviceId);
+    }
+
+    public void removeService(String serviceId) {
+        this.serviceList.remove(serviceId);
+    }
+
     public double getTotalAmount() {
         return totalAmount;
     }
@@ -76,21 +84,16 @@ public class Invoice {
         this.roomId = roomId;
     }
 
-    // Calculate Total Amount based on services
-    public void calculateTotalAmount(List<Double> serviceCosts) {
-        this.totalAmount = serviceCosts.stream().mapToDouble(Double::doubleValue).sum();
-    }
-
     // toString Method
     @Override
     public String toString() {
         return "Invoice{" +
-                "invoiceId='" + invoiceId + '\'' +
+                "invoiceId='" + invoiceId + '\\'' +
                 ", dateIssued=" + dateIssued +
-                ", patientId='" + patientId + '\'' +
+                ", patientId='" + patientId + '\\'' +
                 ", serviceList=" + serviceList +
                 ", totalAmount=" + totalAmount +
-                ", roomId='" + roomId + '\'' +
+                ", roomId='" + roomId + '\\'' +
                 '}';
     }
 }

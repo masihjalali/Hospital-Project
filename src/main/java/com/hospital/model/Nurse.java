@@ -1,8 +1,7 @@
-// Path: src/main/java/com/hospital/model/Nurse.java
 package com.hospital.model;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Class representing a Nurse in the hospital management system.
@@ -10,17 +9,17 @@ import java.util.List;
 public class Nurse {
 
     // Attributes
-    private String nurseId;
-    private String name;
-    private String department; // Department the nurse is assigned to
-    private String contactNumber;
-    private List<String> assignedPatients; // List of Patient IDs under care
+    private String nurseId; // Nurse ID
+    private String name; // Full name of the nurse
+    private String assignedDepartment; // Department the nurse is assigned to
+    private String contactNumber; // Contact number of the nurse
+    private List<String> assignedPatients; // List of patient IDs under the nurse's care
 
     // Constructor
-    public Nurse(String nurseId, String name, String department, String contactNumber) {
+    public Nurse(String nurseId, String name, String assignedDepartment, String contactNumber) {
         this.nurseId = nurseId;
         this.name = name;
-        this.department = department;
+        this.assignedDepartment = assignedDepartment;
         this.contactNumber = contactNumber;
         this.assignedPatients = new ArrayList<>();
     }
@@ -42,12 +41,12 @@ public class Nurse {
         this.name = name;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getAssignedDepartment() {
+        return assignedDepartment;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setAssignedDepartment(String assignedDepartment) {
+        this.assignedDepartment = assignedDepartment;
     }
 
     public String getContactNumber() {
@@ -66,12 +65,11 @@ public class Nurse {
         this.assignedPatients = assignedPatients;
     }
 
-    // Methods to manage assigned patients
-    public void addPatient(String patientId) {
+    public void addAssignedPatient(String patientId) {
         this.assignedPatients.add(patientId);
     }
 
-    public void removePatient(String patientId) {
+    public void removeAssignedPatient(String patientId) {
         this.assignedPatients.remove(patientId);
     }
 
@@ -79,10 +77,10 @@ public class Nurse {
     @Override
     public String toString() {
         return "Nurse{" +
-                "nurseId='" + nurseId + '\'' +
-                ", name='" + name + '\'' +
-                ", department='" + department + '\'' +
-                ", contactNumber='" + contactNumber + '\'' +
+                "nurseId='" + nurseId + '\\'' +
+                ", name='" + name + '\\'' +
+                ", assignedDepartment='" + assignedDepartment + '\\'' +
+                ", contactNumber='" + contactNumber + '\\'' +
                 ", assignedPatients=" + assignedPatients +
                 '}';
     }

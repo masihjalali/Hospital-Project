@@ -1,4 +1,3 @@
-// Path: src/main/java/com/hospital/model/Patient.java
 package com.hospital.model;
 
 import java.util.Date;
@@ -9,15 +8,15 @@ import java.util.Date;
 public class Patient {
 
     // Attributes
-    private String id;
-    private String name;
-    private int age;
-    private String gender;
-    private String contactNumber;
-    private String healthStatus;
-    private String allocatedRoom;
-    private Date admissionDate;
-    private Date dischargeDate;
+    private String id; // Patient ID
+    private String name; // Full name of the patient
+    private int age; // Age of the patient
+    private String gender; // Gender of the patient
+    private String contactNumber; // Contact number
+    private String healthStatus; // Health status description
+    private String allocatedRoom; // Allocated room ID
+    private Date admissionDate; // Date of admission
+    private Date dischargeDate; // Date of discharge
 
     // Constructor
     public Patient(String id, String name, int age, String gender, String contactNumber, String healthStatus, String allocatedRoom, Date admissionDate, Date dischargeDate) {
@@ -109,13 +108,13 @@ public class Patient {
     @Override
     public String toString() {
         return "Patient{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
+                "id='" + id + '\\'' +
+                ", name='" + name + '\\'' +
                 ", age=" + age +
-                ", gender='" + gender + '\'' +
-                ", contactNumber='" + contactNumber + '\'' +
-                ", healthStatus='" + healthStatus + '\'' +
-                ", allocatedRoom='" + allocatedRoom + '\'' +
+                ", gender='" + gender + '\\'' +
+                ", contactNumber='" + contactNumber + '\\'' +
+                ", healthStatus='" + healthStatus + '\\'' +
+                ", allocatedRoom='" + allocatedRoom + '\\'' +
                 ", admissionDate=" + admissionDate +
                 ", dischargeDate=" + dischargeDate +
                 '}';

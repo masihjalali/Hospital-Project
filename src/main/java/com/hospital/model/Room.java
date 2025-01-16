@@ -1,4 +1,3 @@
-// Path: src/main/java/com/hospital/model/Room.java
 package com.hospital.model;
 
 import java.util.ArrayList;
@@ -10,15 +9,15 @@ import java.util.List;
 public class Room {
 
     // Attributes
-    private String roomId;
-    private int roomNumber;
-    private int capacity;
-    private String roomType; // e.g., "General", "Private"
-    private String status;   // e.g., "Occupied", "Available"
-    private List<String> patientsInRoom; // List of Patient IDs
+    private String roomId; // Room ID
+    private String roomNumber; // Room number
+    private int capacity; // Capacity of the room
+    private String roomType; // Room type (General/Private)
+    private String status; // Status (Occupied/Vacant)
+    private List<String> patientsInRoom; // List of patient IDs in the room
 
     // Constructor
-    public Room(String roomId, int roomNumber, int capacity, String roomType, String status) {
+    public Room(String roomId, String roomNumber, int capacity, String roomType, String status) {
         this.roomId = roomId;
         this.roomNumber = roomNumber;
         this.capacity = capacity;
@@ -36,11 +35,11 @@ public class Room {
         this.roomId = roomId;
     }
 
-    public int getRoomNumber() {
+    public String getRoomNumber() {
         return roomNumber;
     }
 
-    public void setRoomNumber(int roomNumber) {
+    public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
     }
 
@@ -76,12 +75,11 @@ public class Room {
         this.patientsInRoom = patientsInRoom;
     }
 
-    // Methods to manage patients in the room
     public void addPatient(String patientId) {
         if (this.patientsInRoom.size() < this.capacity) {
             this.patientsInRoom.add(patientId);
         } else {
-            throw new IllegalStateException("Room capacity exceeded!");
+            throw new IllegalStateException("Room is at full capacity");
         }
     }
 
@@ -93,11 +91,11 @@ public class Room {
     @Override
     public String toString() {
         return "Room{" +
-                "roomId='" + roomId + '\'' +
-                ", roomNumber=" + roomNumber +
+                "roomId='" + roomId + '\\'' +
+                ", roomNumber='" + roomNumber + '\\'' +
                 ", capacity=" + capacity +
-                ", roomType='" + roomType + '\'' +
-                ", status='" + status + '\'' +
+                ", roomType='" + roomType + '\\'' +
+                ", status='" + status + '\\'' +
                 ", patientsInRoom=" + patientsInRoom +
                 '}';
     }

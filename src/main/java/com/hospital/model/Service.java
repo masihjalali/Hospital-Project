@@ -1,5 +1,7 @@
-// Path: src/main/java/com/hospital/model/Service.java
 package com.hospital.model;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class representing a Service in the hospital management system.
@@ -7,19 +9,19 @@ package com.hospital.model;
 public class Service {
 
     // Attributes
-    private String serviceId;
-    private String serviceName;
-    private double cost;
-    private String description;
-    private String responsibleStaff; // ID of the staff responsible for the service
+    private String serviceId; // Service ID
+    private String serviceName; // Name of the service
+    private double cost; // Cost of the service
+    private String description; // Description of the service
+    private List<String> responsibleStaff; // List of responsible staff IDs
 
     // Constructor
-    public Service(String serviceId, String serviceName, double cost, String description, String responsibleStaff) {
+    public Service(String serviceId, String serviceName, double cost, String description) {
         this.serviceId = serviceId;
         this.serviceName = serviceName;
         this.cost = cost;
         this.description = description;
-        this.responsibleStaff = responsibleStaff;
+        this.responsibleStaff = new ArrayList<>();
     }
 
     // Getters and Setters
@@ -55,23 +57,31 @@ public class Service {
         this.description = description;
     }
 
-    public String getResponsibleStaff() {
+    public List<String> getResponsibleStaff() {
         return responsibleStaff;
     }
 
-    public void setResponsibleStaff(String responsibleStaff) {
+    public void setResponsibleStaff(List<String> responsibleStaff) {
         this.responsibleStaff = responsibleStaff;
+    }
+
+    public void addResponsibleStaff(String staffId) {
+        this.responsibleStaff.add(staffId);
+    }
+
+    public void removeResponsibleStaff(String staffId) {
+        this.responsibleStaff.remove(staffId);
     }
 
     // toString Method
     @Override
     public String toString() {
         return "Service{" +
-                "serviceId='" + serviceId + '\'' +
-                ", serviceName='" + serviceName + '\'' +
+                "serviceId='" + serviceId + '\\'' +
+                ", serviceName='" + serviceName + '\\'' +
                 ", cost=" + cost +
-                ", description='" + description + '\'' +
-                ", responsibleStaff='" + responsibleStaff + '\'' +
+                ", description='" + description + '\\'' +
+                ", responsibleStaff=" + responsibleStaff +
                 '}';
     }
 }
