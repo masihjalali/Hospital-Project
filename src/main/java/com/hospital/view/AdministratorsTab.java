@@ -5,8 +5,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-import com.hospital.model.Administrator;
+
 import com.hospital.controller.HospitalController;
+import com.hospital.model.Administrator;
 
 /**
  * Administrators Tab with Table and CRUD Operations

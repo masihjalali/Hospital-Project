@@ -4,12 +4,13 @@ import com.hospital.model.*;
 import java.util.*;
 import java.util.Date;
 
+
 /**
  * Main class for testing all models.
  */
 public class Main {
-
     public static void main(String[] args) {
+
         // Testing Patient Model
         Patient patient = new Patient("P001", "John Doe", 30, "Male", "1234567890", "Healthy", "101", new Date(), null);
         System.out.println("Patient: " + patient);
@@ -55,5 +56,5 @@ public class Main {
         System.out.println("Invoice: " + invoice);
 
         System.out.println("All models tested successfully.");
+        }
     }
-}

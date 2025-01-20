@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.hospital.model.Doctor;
 import com.hospital.controller.HospitalController;
@@ -110,10 +111,8 @@ public class DoctorsTab {
                     contactField.getText(),new ArrayList<>()
             );
             String[] schedules = workScheduleField.getText().split(",");
-            for (String schedule : schedules) {
-//                doctor.addWorkSchedule(schedule.trim());
-            }
-//            controller.addDoctor(doctor);
+                doctor.setWorkSchedule(new ArrayList<>(List.of(schedules)));
+            controller.addDoctor(doctor);
             loadDoctorsData();
             dialog.dispose();
         });
@@ -157,10 +156,10 @@ public class DoctorsTab {
             doctor.setContactNumber(contactField.getText());
             doctor.getWorkSchedule().clear();
             String[] schedules = workScheduleField.getText().split(",");
-            for (String schedule : schedules) {
-//                doctor.addWorkSchedule(schedule.trim());
-            }
-//            controller.addDoctor(doctor);
+
+            doctor.setWorkSchedule(new ArrayList<>(List.of(schedules)));
+            controller.addDoctor(doctor);
+
             loadDoctorsData();
             dialog.dispose();
         });

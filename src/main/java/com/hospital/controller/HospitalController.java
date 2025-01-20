@@ -3,29 +3,35 @@ package com.hospital.controller;
 import java.sql.*;
 import java.util.*;
 import com.hospital.model.*; // Import all models
+import com.hospital.view.*; // Import all models
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Controller for managing all models in the hospital management system using MySQL database.
  */
 public class HospitalController {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/hospital_db";
+    private static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/hospital_db";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "password";
+    private static final String DB_PASSWORD = "";
 
     // Constructor to initialize the database connection
     public HospitalController() {
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+        try (
+            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             System.out.println("Connected to the database successfully.");
         } catch (SQLException e) {
-            throw new RuntimeException("Error connecting to the database", e);
-        }
-    }
+            throw new RuntimeException("Error Connecting to the database", e);
 
+    }
+        }
     // Methods for Patient
-    public void addPatient(Patient patient) {
-        String query = "INSERT INTO patients (id, name, age, gender, contactNumber, healthStatus, allocatedRoom, admissionDate, dischargeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        public void addPatient(Patient patient){
+        String query = "INSERT INTO patients (id, name, age, gender, contact_number, healthStatus, allocatedRoom, admissionDate, dischargeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, patient.getId());
             stmt.setString(2, patient.getName());
@@ -42,7 +48,6 @@ public class HospitalController {
             throw new RuntimeException("Error adding patient", e);
         }
     }
-
     public List<Patient> getAllPatients() {
         String query = "SELECT * FROM patients";
         List<Patient> patients = new ArrayList<>();
@@ -640,19 +645,116 @@ public class HospitalController {
     }
 
     // Delete an appointment by ID
-    public void deleteAppointmentById(String id) {
-        String query = "DELETE FROM appointments WHERE id = ?";
+    public void deleteAppointmentById(String id){
+                String query = "DELETE FROM appointments WHERE id = ?";
+                try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+                     PreparedStatement stmt = connection.prepareStatement(query)) {
+
+                    stmt.setString(1, id);
+                    stmt.executeUpdate();
+                    System.out.println("Appointment deleted successfully.");
+                } catch (SQLException e) {
+                    throw new RuntimeException("Error deleting appointment", e);
+                }
+                // Add similar methods for other models like Appointment, Doctor, Invoice, Medication, Nurse, Room, Service, SupportStaff
+            }
+
+    // Add a new doctor
+    public void addDoctor(Doctor doctor) {
+        String query = "INSERT INTO doctors (id, name, specialization, contact_number, work_schedule) VALUES (?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, doctor.getDoctorId());
+            stmt.setString(2, doctor.getName());
+            stmt.setString(3, doctor.getSpecialization());
+            stmt.setString(4, doctor.getContactNumber());
+            stmt.setString(5, doctor.getWorkSchedule().toString());
+
+            stmt.executeUpdate();
+            System.out.println("Doctor added successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error adding doctor", e);
+        }
+    }
+
+    // Retrieve all doctors
+    public List<Doctor> getAllDoctors() {
+        List<Doctor> doctors = new ArrayList<>();
+        String query = "SELECT * FROM doctors";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                Doctor doctor = new Doctor(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("specialization"),
+                        rs.getString("contact_number"),
+                        Collections.singletonList(rs.getString("work_schedule"))
+                );
+                doctors.add(doctor);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving doctors", e);
+        }
+        return doctors;
+    }
+
+    // Retrieve a doctor by ID
+    public Doctor getDoctorById(String id) {
+        String query = "SELECT * FROM doctors WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new Doctor(
+                        rs.getString("id"),
+                        rs.getString("name"),
+                        rs.getString("specialization"),
+                        rs.getString("contact_number"),
+                        Collections.singletonList(rs.getString("work_schedule"))
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving doctor by ID", e);
+        }
+        return null;
+    }
+
+    // Update a doctor
+    public void updateDoctor(Doctor doctor) {
+        String query = "UPDATE doctors SET name = ?, specialization = ?, contact_number = ?, work_schedule = ? WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, doctor.getName());
+            stmt.setString(2, doctor.getSpecialization());
+            stmt.setString(3, doctor.getContactNumber());
+            stmt.setString(4, doctor.getWorkSchedule().toString());
+            stmt.setString(5, doctor.getDoctorId());
+
+            stmt.executeUpdate();
+            System.out.println("Doctor updated successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating doctor", e);
+        }
+    }
+
+    // Delete a doctor by ID
+    public void deleteDoctorById(String id) {
+        String query = "DELETE FROM doctors WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setString(1, id);
             stmt.executeUpdate();
-            System.out.println("Appointment deleted successfully.");
+            System.out.println("Doctor deleted successfully.");
         } catch (SQLException e) {
-            throw new RuntimeException("Error deleting appointment", e);
+            throw new RuntimeException("Error deleting doctor", e);
         }
-    // Add similar methods for other models like Appointment, Doctor, Invoice, Medication, Nurse, Room, Service, SupportStaff
-
-
     }
 }

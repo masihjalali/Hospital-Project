@@ -6,7 +6,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import java.util.List;
-
 import com.hospital.model.Patient;
 import com.hospital.controller.HospitalController;
 
