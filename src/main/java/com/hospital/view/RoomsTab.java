@@ -25,7 +25,7 @@ public class RoomsTab {
         JPanel panel = new JPanel(new BorderLayout());
 
         // Table model setup
-        String[] columnNames = {"Room ID", "Room Number", "Capacity", "Room Type", "Status", "Patients In Room"};
+        String[] columnNames = {"ID", "Room Number", "Capacity", "Room Type", "Status", "Patients In Room"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
 
@@ -64,7 +64,7 @@ public class RoomsTab {
 
     private void loadRoomsData() {
         tableModel.setRowCount(0); // Clear existing rows
-//        ArrayList<Room> rooms = controller.getAllRooms();
+     // ArrayList<Room> rooms = controller.getAllRooms();
         ArrayList<Room> rooms = new ArrayList<>();
         for (Room room : rooms) {
             tableModel.addRow(new Object[]{
@@ -117,7 +117,7 @@ public class RoomsTab {
             for (String patient : patients) {
                 room.addPatient(patient.trim());
             }
-//            controller.addRoom(room);
+            controller.addRoom(room);
             loadRoomsData();
             dialog.dispose();
         });

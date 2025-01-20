@@ -21,17 +21,16 @@ public class HospitalController {
     // Constructor to initialize the database connection
     public HospitalController() {
         try (
-            Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
+                Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
             System.out.println("Connected to the database successfully.");
         } catch (SQLException e) {
             throw new RuntimeException("Error Connecting to the database", e);
-
-    }
         }
+    }
     // Methods for Patient
-        public void addPatient(Patient patient){
-        String query = "INSERT INTO patients (id, name, age, gender, contact_number, healthStatus, allocatedRoom, admissionDate, dischargeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+    public void addPatient(Patient patient) {
+        String query = "INSERT INTO patients (id, name, age, gender, contact_number, health_status, allocated_room, admission_date, discharge_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, patient.getId());
             stmt.setString(2, patient.getName());
@@ -48,6 +47,7 @@ public class HospitalController {
             throw new RuntimeException("Error adding patient", e);
         }
     }
+
     public List<Patient> getAllPatients() {
         String query = "SELECT * FROM patients";
         List<Patient> patients = new ArrayList<>();
@@ -60,11 +60,11 @@ public class HospitalController {
                         rs.getString("name"),
                         rs.getInt("age"),
                         rs.getString("gender"),
-                        rs.getString("contactNumber"),
-                        rs.getString("healthStatus"),
-                        rs.getString("allocatedRoom"),
-                        rs.getDate("admissionDate"),
-                        rs.getDate("dischargeDate")
+                        rs.getString("contact_number"),
+                        rs.getString("health_status"),
+                        rs.getString("allocated_room"),
+                        rs.getDate("admission_date"),
+                        rs.getDate("discharge_date")
                 ));
             }
         } catch (SQLException e) {
@@ -85,11 +85,11 @@ public class HospitalController {
                         rs.getString("name"),
                         rs.getInt("age"),
                         rs.getString("gender"),
-                        rs.getString("contactNumber"),
-                        rs.getString("healthStatus"),
-                        rs.getString("allocatedRoom"),
-                        rs.getDate("admissionDate"),
-                        rs.getDate("dischargeDate")
+                        rs.getString("contact_number"),
+                        rs.getString("health_status"),
+                        rs.getString("allocated_room"),
+                        rs.getDate("admission_date"),
+                        rs.getDate("discharge_date")
                 );
             }
         } catch (SQLException e) {
@@ -357,7 +357,7 @@ public class HospitalController {
 
     // Add a new nurse
     public void addNurse(Nurse nurse) {
-        String query = "INSERT INTO nurses (id, name, assigned_department, contact, assigned_patients) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO nurses (id, name, assigned_department, contact_number, assigned_patients) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
@@ -387,7 +387,7 @@ public class HospitalController {
                         rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("assigned_department"),
-                        rs.getString("contact")
+                        rs.getString("contact_number")
                 );
                 String[] patients = rs.getString("assigned_patients").split(",");
                 for (String patient : patients) {
@@ -414,7 +414,7 @@ public class HospitalController {
                         rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("assigned_department"),
-                        rs.getString("contact")
+                        rs.getString("contact_number")
                 );
                 String[] patients = rs.getString("assigned_patients").split(",");
                 for (String patient : patients) {
@@ -430,7 +430,7 @@ public class HospitalController {
 
     // Update a nurse
     public void updateNurse(Nurse nurse) {
-        String query = "UPDATE nurses SET name = ?, assigned_department = ?, contact = ?, assigned_patients = ? WHERE id = ?";
+        String query = "UPDATE nurses SET name = ?, assigned_department = ?, contact_number = ?, assigned_patients = ? WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
@@ -460,6 +460,7 @@ public class HospitalController {
             throw new RuntimeException("Error deleting nurse", e);
         }
     }
+
     // Add a new support staff
     public void addSupportStaff(SupportStaff staff) {
         String query = "INSERT INTO support_staff (id, name, role, contact, assigned_section) VALUES (?, ?, ?, ?, ?)";
@@ -645,19 +646,19 @@ public class HospitalController {
     }
 
     // Delete an appointment by ID
-    public void deleteAppointmentById(String id){
-                String query = "DELETE FROM appointments WHERE id = ?";
-                try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-                     PreparedStatement stmt = connection.prepareStatement(query)) {
+    public void deleteAppointmentById(String id) {
+        String query = "DELETE FROM appointments WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
 
-                    stmt.setString(1, id);
-                    stmt.executeUpdate();
-                    System.out.println("Appointment deleted successfully.");
-                } catch (SQLException e) {
-                    throw new RuntimeException("Error deleting appointment", e);
-                }
-                // Add similar methods for other models like Appointment, Doctor, Invoice, Medication, Nurse, Room, Service, SupportStaff
-            }
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+            System.out.println("Appointment deleted successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting appointment", e);
+        }
+        // Add similar methods for other models like Appointment, Doctor, Invoice, Medication, Nurse, Room, Service, SupportStaff
+    }
 
     // Add a new doctor
     public void addDoctor(Doctor doctor) {
@@ -757,4 +758,115 @@ public class HospitalController {
             throw new RuntimeException("Error deleting doctor", e);
         }
     }
+
+    // Add a new room
+    public void addRoom(Room room) {
+        String query = "INSERT INTO rooms (id, room_number, capacity, room_type, status, patients_in_room) VALUES (?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, room.getRoomId());
+            stmt.setString(2, room.getRoomNumber());
+            stmt.setInt(3, room.getCapacity());
+            stmt.setString(4, room.getRoomType());
+            stmt.setString(5, room.getStatus());
+            stmt.setString(6, String.join(",", room.getPatientsInRoom()));
+
+            stmt.executeUpdate();
+            System.out.println("Room added successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error adding room", e);
+        }
+    }
+
+    // Retrieve all rooms
+    public List<Room> getAllRooms() {
+        List<Room> rooms = new ArrayList<>();
+        String query = "SELECT * FROM rooms";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             Statement stmt = connection.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                Room room = new Room(
+                        rs.getString("id"),
+                        rs.getString("room_number"),
+                        rs.getInt("capacity"),
+                        rs.getString("room_type"),
+                        rs.getString("status")
+                );
+                String[] patients = rs.getString("patients_in_room").split(",");
+                for (String patient : patients) {
+                    room.addPatient(patient);
+                }
+                rooms.add(room);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving rooms", e);
+        }
+        return rooms;
+    }
+
+    // Retrieve a room by ID
+    public Room getRoomById(String id) {
+        String query = "SELECT * FROM rooms WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Room room = new Room(
+                        rs.getString("id"),
+                        rs.getString("room_number"),
+                        rs.getInt("capacity"),
+                        rs.getString("room_type"),
+                        rs.getString("status")
+                );
+                String[] patients = rs.getString("patients_in_room").split(",");
+                for (String patient : patients) {
+                    room.addPatient(patient);
+                }
+                return room;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving room by ID", e);
+        }
+        return null;
+    }
+
+    // Update a room
+    public void updateRoom(Room room) {
+        String query = "UPDATE rooms SET room_number = ?, capacity = ?, room_type = ?, status = ?, patients_in_room = ? WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, room.getRoomNumber());
+            stmt.setInt(2, room.getCapacity());
+            stmt.setString(3, room.getRoomType());
+            stmt.setString(4, room.getStatus());
+            stmt.setString(5, String.join(",", room.getPatientsInRoom()));
+            stmt.setString(6, room.getRoomId());
+
+            stmt.executeUpdate();
+            System.out.println("Room updated successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating room", e);
+        }
+    }
+
+    // Delete a room by ID
+    public void deleteRoomById(String id) {
+        String query = "DELETE FROM rooms WHERE id = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setString(1, id);
+            stmt.executeUpdate();
+            System.out.println("Room deleted successfully.");
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting room", e);
+        }
+    }
+
 }

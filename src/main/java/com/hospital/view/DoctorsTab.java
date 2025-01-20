@@ -66,7 +66,7 @@ public class DoctorsTab {
 
     private void loadDoctorsData() {
         tableModel.setRowCount(0); // Clear existing rows
-//        ArrayList<Doctor> doctors = controller.getAllDoctors();
+//      ArrayList<Doctor> doctors = controller.getAllDoctors();
         ArrayList<Doctor> doctors = new ArrayList<>();
         for (Doctor doctor : doctors) {
             tableModel.addRow(new Object[]{
@@ -97,7 +97,7 @@ public class DoctorsTab {
         dialog.add(nameField);
         dialog.add(new JLabel("Specialization:"));
         dialog.add(specializationField);
-        dialog.add(new JLabel("Contact:"));
+        dialog.add(new JLabel("Contact Number:"));
         dialog.add(contactField);
         dialog.add(new JLabel("Work Schedule (comma-separated):"));
         dialog.add(workScheduleField);
@@ -167,7 +167,7 @@ public class DoctorsTab {
 
         JButton deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> {
-//            controller.deleteDoctorById(doctorId);
+            controller.deleteDoctorById(doctorId);
             loadDoctorsData();
             dialog.dispose();
         });
