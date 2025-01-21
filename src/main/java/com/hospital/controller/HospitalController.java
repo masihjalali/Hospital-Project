@@ -562,14 +562,14 @@ public class HospitalController {
 
     // Add a new appointment
     public void addAppointment(Appointment appointment) {
-        String query = "INSERT INTO appointments (id, patient_id, doctor_id, date_time, status_) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO appointments (id, patient_id, doctor_id, date_time, status) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
             stmt.setString(1, appointment.getAppointmentId());
             stmt.setString(2, appointment.getPatientId());
             stmt.setString(3, appointment.getDoctorId());
-            stmt.setString(4, appointment.getAppointmentId());
+            stmt.setDate(4,  new java.sql.Date(appointment.getAppointmentDate().getTime()));
             stmt.setString(5, appointment.getStatus());
 
             stmt.executeUpdate();
@@ -593,7 +593,7 @@ public class HospitalController {
                         rs.getString("patient_id"),
                         rs.getString("doctor_id"),
                         rs.getDate("date_time"),
-                        rs.getString("status_")
+                        rs.getString("status")
                 );
                 appointments.add(appointment);
             }
@@ -617,7 +617,7 @@ public class HospitalController {
                         rs.getString("patient_id"),
                         rs.getString("doctor_id"),
                         rs.getDate("date_time"),
-                        rs.getString("status_")
+                        rs.getString("status")
                 );
             }
         } catch (SQLException e) {
@@ -628,7 +628,7 @@ public class HospitalController {
 
     // Update an appointment
     public void updateAppointment(Appointment appointment) {
-        String query = "UPDATE appointments SET patient_id = ?, doctor_id = ?, date_time = ?, status_ = ? WHERE id = ?";
+        String query = "UPDATE appointments SET patient_id = ?, doctor_id = ?, date_time = ?, status = ? WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 

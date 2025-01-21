@@ -44,9 +44,18 @@ public class MedicationsTab {
         addButton.addActionListener(e -> openAddMedicationDialog());
         buttonPanel.add(addButton);
 
-        // Edit Button
-        JButton EditButton = new JButton("Edit Medications");
-        buttonPanel.add(EditButton);
+        // Add Edit Medication Button
+        JButton editButton = new JButton("Edit Medication");
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                String medicationId = tableModel.getValueAt(selectedRow, 0).toString(); // Assuming Medication ID is in the first column
+                openEditMedicationDialog(medicationId);
+            } else {
+                JOptionPane.showMessageDialog(panel, "Please select a medication to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(editButton);
 
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);

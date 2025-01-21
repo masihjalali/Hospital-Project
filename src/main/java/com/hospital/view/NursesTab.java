@@ -45,9 +45,18 @@ public class NursesTab {
         addButton.addActionListener(e -> openAddNurseDialog());
         buttonPanel.add(addButton);
 
-        // Edit Button
-        JButton EditButton = new JButton("Edit Nurse");
-        buttonPanel.add(EditButton);
+        // Add Edit Nurse Button
+        JButton editButton = new JButton("Edit Nurse");
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                String nurseId = tableModel.getValueAt(selectedRow, 0).toString(); // Assuming Nurse ID is in the first column
+                openEditNurseDialog(nurseId);
+            } else {
+                JOptionPane.showMessageDialog(panel, "Please select a nurse to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(editButton);
 
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);

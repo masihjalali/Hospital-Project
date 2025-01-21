@@ -45,9 +45,19 @@ public class AdministratorsTab {
         addButton.addActionListener(e -> openAddAdministratorDialog());
         buttonPanel.add(addButton);
 
-        // Edit Button
-        JButton EditButton = new JButton("Edit Administrator");
-        buttonPanel.add(EditButton);
+        // Add Edit Administrator Button
+        JButton editButton = new JButton("Edit Administrator");
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                String adminId = tableModel.getValueAt(selectedRow, 0).toString(); // Assuming Admin ID is in the first column
+                openEditAdministratorDialog(adminId);
+            } else {
+                JOptionPane.showMessageDialog(panel, "Please select an administrator to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(editButton);
+
 
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);

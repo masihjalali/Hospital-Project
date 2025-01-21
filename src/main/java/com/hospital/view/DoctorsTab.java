@@ -45,10 +45,19 @@ public class DoctorsTab {
         JButton addButton = new JButton("Add Doctor");
         addButton.addActionListener(e -> openAddDoctorDialog());
         buttonPanel.add(addButton);
-        // Edit Button
-        JButton EditButton = new JButton("Edit Doctor");
-        buttonPanel.add(EditButton);
 
+        // Add Edit Doctor Button
+        JButton editButton = new JButton("Edit Doctor");
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                String doctorId = tableModel.getValueAt(selectedRow, 0).toString(); // Assuming Doctor ID is in the first column
+                openEditDoctorDialog(doctorId);
+            } else {
+                JOptionPane.showMessageDialog(panel, "Please select a doctor to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(editButton);
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
 

@@ -44,9 +44,18 @@ public class ServicesTab {
         addButton.addActionListener(e -> openAddServiceDialog());
         buttonPanel.add(addButton);
 
-        // Edit Button
-        JButton EditButton = new JButton("Edit Services");
-        buttonPanel.add(EditButton);
+        // Add Edit Service Button
+        JButton editButton = new JButton("Edit Service");
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                String serviceId = tableModel.getValueAt(selectedRow, 0).toString(); // Assuming Service ID is in the first column
+                openEditServiceDialog(serviceId);
+            } else {
+                JOptionPane.showMessageDialog(panel, "Please select a service to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(editButton);
 
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);

@@ -44,9 +44,18 @@ public class AppointmentsTab {
         addButton.addActionListener(e -> openAddAppointmentDialog());
         buttonPanel.add(addButton);
 
-        // Edit Button
-        JButton EditButton = new JButton("Edit Appointment");
-        buttonPanel.add(EditButton);
+        // Add Edit Appointment Button
+        JButton editButton = new JButton("Edit Appointment");
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                String appointmentId = tableModel.getValueAt(selectedRow, 0).toString(); // Assuming Appointment ID is in the first column
+                openEditAppointmentDialog(appointmentId);
+            } else {
+                JOptionPane.showMessageDialog(panel, "Please select an appointment to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(editButton);
 
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);

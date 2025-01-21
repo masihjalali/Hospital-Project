@@ -44,10 +44,18 @@ public class SupportStaffTab {
         addButton.addActionListener(e -> openAddSupportStaffDialog());
         buttonPanel.add(addButton);
 
-        // Edit Button
-        JButton EditButton = new JButton("Edit Staff");
-        buttonPanel.add(EditButton);
-
+        // Add Edit Support Staff Button
+        JButton editButton = new JButton("Edit Support Staff");
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                String staffId = tableModel.getValueAt(selectedRow, 0).toString(); // Assuming Staff ID is in the first column
+                openEditSupportStaffDialog(staffId);
+            } else {
+                JOptionPane.showMessageDialog(panel, "Please select a support staff to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(editButton);
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
 

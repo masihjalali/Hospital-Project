@@ -39,14 +39,24 @@ public class RoomsTab {
         // Buttons panel
         JPanel buttonPanel = new JPanel();
 
-        // Add Button
+        // Add addButton
         JButton addButton = new JButton("Add Room");
         addButton.addActionListener(e -> openAddRoomDialog());
         buttonPanel.add(addButton);
 
-        // Edit Button
-        JButton EditButton = new JButton("Edit Rooms");
-        buttonPanel.add(EditButton);
+        // add edit button
+        JButton editButton = new JButton("Edit Room");
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                String roomId = tableModel.getValueAt(selectedRow, 0).toString(); // Assuming Room ID is in the first column
+                openEditRoomDialog(roomId);
+            } else {
+                JOptionPane.showMessageDialog(panel, "Please select a room to edit.", "No Selection", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(editButton);
+
 
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
