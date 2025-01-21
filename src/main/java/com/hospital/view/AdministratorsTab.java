@@ -45,6 +45,10 @@ public class AdministratorsTab {
         addButton.addActionListener(e -> openAddAdministratorDialog());
         buttonPanel.add(addButton);
 
+        // Edit Button
+        JButton EditButton = new JButton("Edit Administrator");
+        buttonPanel.add(EditButton);
+
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
 

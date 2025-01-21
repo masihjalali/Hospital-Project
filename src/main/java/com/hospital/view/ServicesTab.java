@@ -44,6 +44,10 @@ public class ServicesTab {
         addButton.addActionListener(e -> openAddServiceDialog());
         buttonPanel.add(addButton);
 
+        // Edit Button
+        JButton EditButton = new JButton("Edit Services");
+        buttonPanel.add(EditButton);
+
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
 

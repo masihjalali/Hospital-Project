@@ -112,7 +112,7 @@ public class HospitalController {
 
     // Methods for Administrator
     public void addAdministrator(Administrator admin) {
-        String query = "INSERT INTO administrators (id, name, username, password, contactNumber) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO administrators (id, name, username, password, contact_number) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, admin.getId());
@@ -139,7 +139,7 @@ public class HospitalController {
                         rs.getString("name"),
                         rs.getString("username"),
                         rs.getString("password"),
-                        rs.getString("contactNumber")
+                        rs.getString("contact_number")
                 ));
             }
         } catch (SQLException e) {
@@ -160,7 +160,7 @@ public class HospitalController {
                         rs.getString("name"),
                         rs.getString("username"),
                         rs.getString("password"),
-                        rs.getString("contactNumber")
+                        rs.getString("contact_number")
                 );
             }
         } catch (SQLException e) {
@@ -463,7 +463,7 @@ public class HospitalController {
 
     // Add a new support staff
     public void addSupportStaff(SupportStaff staff) {
-        String query = "INSERT INTO support_staff (id, name, role, contact, assigned_section) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO support_staff (id, name, role, contact_number, assigned_section) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
@@ -493,7 +493,7 @@ public class HospitalController {
                         rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("role"),
-                        rs.getString("contact"),
+                        rs.getString("contact_number"),
                         rs.getString("assigned_section")
                 );
                 staffList.add(staff);
@@ -517,7 +517,7 @@ public class HospitalController {
                         rs.getString("id"),
                         rs.getString("name"),
                         rs.getString("role"),
-                        rs.getString("contact"),
+                        rs.getString("contact_number"),
                         rs.getString("assigned_section")
                 );
             }
@@ -529,7 +529,7 @@ public class HospitalController {
 
     // Update a support staff
     public void updateSupportStaff(SupportStaff staff) {
-        String query = "UPDATE support_staff SET name = ?, role = ?, contact = ?, assigned_section = ? WHERE id = ?";
+        String query = "UPDATE support_staff SET name = ?, role = ?, contact_number = ?, assigned_section = ? WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
@@ -562,7 +562,7 @@ public class HospitalController {
 
     // Add a new appointment
     public void addAppointment(Appointment appointment) {
-        String query = "INSERT INTO appointments (id, patient_id, doctor_id, date_time, status) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO appointments (id, patient_id, doctor_id, date_time, status_) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
@@ -593,7 +593,7 @@ public class HospitalController {
                         rs.getString("patient_id"),
                         rs.getString("doctor_id"),
                         rs.getDate("date_time"),
-                        rs.getString("status")
+                        rs.getString("status_")
                 );
                 appointments.add(appointment);
             }
@@ -617,7 +617,7 @@ public class HospitalController {
                         rs.getString("patient_id"),
                         rs.getString("doctor_id"),
                         rs.getDate("date_time"),
-                        rs.getString("status")
+                        rs.getString("status_")
                 );
             }
         } catch (SQLException e) {
@@ -628,7 +628,7 @@ public class HospitalController {
 
     // Update an appointment
     public void updateAppointment(Appointment appointment) {
-        String query = "UPDATE appointments SET patient_id = ?, doctor_id = ?, date_time = ?, status = ? WHERE id = ?";
+        String query = "UPDATE appointments SET patient_id = ?, doctor_id = ?, date_time = ?, status_ = ? WHERE id = ?";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement stmt = connection.prepareStatement(query)) {
 
@@ -680,8 +680,8 @@ public class HospitalController {
     }
 
     // Retrieve all doctors
-    public List<Doctor> getAllDoctors() {
-        List<Doctor> doctors = new ArrayList<>();
+    public ArrayList<Doctor> getAllDoctors() {
+        ArrayList<Doctor> doctors = new ArrayList<>();
         String query = "SELECT * FROM doctors";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = connection.createStatement();
@@ -780,8 +780,8 @@ public class HospitalController {
     }
 
     // Retrieve all rooms
-    public List<Room> getAllRooms() {
-        List<Room> rooms = new ArrayList<>();
+    public ArrayList<Room> getAllRooms() {
+        ArrayList<Room> rooms = new ArrayList<>();
         String query = "SELECT * FROM rooms";
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              Statement stmt = connection.createStatement();

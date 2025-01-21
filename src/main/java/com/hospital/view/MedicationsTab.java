@@ -44,6 +44,10 @@ public class MedicationsTab {
         addButton.addActionListener(e -> openAddMedicationDialog());
         buttonPanel.add(addButton);
 
+        // Edit Button
+        JButton EditButton = new JButton("Edit Medications");
+        buttonPanel.add(EditButton);
+
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
 

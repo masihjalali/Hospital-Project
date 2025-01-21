@@ -44,6 +44,10 @@ public class AppointmentsTab {
         addButton.addActionListener(e -> openAddAppointmentDialog());
         buttonPanel.add(addButton);
 
+        // Edit Button
+        JButton EditButton = new JButton("Edit Appointment");
+        buttonPanel.add(EditButton);
+
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
 

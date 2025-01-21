@@ -27,7 +27,7 @@ public class DoctorsTab {
         JPanel panel = new JPanel(new BorderLayout());
 
         // Table model setup
-        String[] columnNames = {"ID", "Name", "Specialization", "Contact", "Work Schedule"};
+        String[] columnNames = {"id", "name", "specialization", "contact", "work_schedule"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
 
@@ -45,6 +45,9 @@ public class DoctorsTab {
         JButton addButton = new JButton("Add Doctor");
         addButton.addActionListener(e -> openAddDoctorDialog());
         buttonPanel.add(addButton);
+        // Edit Button
+        JButton EditButton = new JButton("Edit Doctor");
+        buttonPanel.add(EditButton);
 
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
@@ -66,8 +69,7 @@ public class DoctorsTab {
 
     private void loadDoctorsData() {
         tableModel.setRowCount(0); // Clear existing rows
-//      ArrayList<Doctor> doctors = controller.getAllDoctors();
-        ArrayList<Doctor> doctors = new ArrayList<>();
+        ArrayList <Doctor> doctors = controller.getAllDoctors();
         for (Doctor doctor : doctors) {
             tableModel.addRow(new Object[]{
                     doctor.getDoctorId(),
@@ -123,8 +125,7 @@ public class DoctorsTab {
     }
 
     private void openEditDoctorDialog(String doctorId) {
-//        Doctor doctor = controller.getDoctorById(doctorId);
-        Doctor doctor = null;
+        Doctor doctor = controller.getDoctorById(doctorId);
         if (doctor == null) {
             JOptionPane.showMessageDialog(null, "Doctor not found.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -186,3 +187,4 @@ public class DoctorsTab {
         frame.setVisible(true);
     }
 }
+

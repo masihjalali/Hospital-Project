@@ -44,6 +44,10 @@ public class SupportStaffTab {
         addButton.addActionListener(e -> openAddSupportStaffDialog());
         buttonPanel.add(addButton);
 
+        // Edit Button
+        JButton EditButton = new JButton("Edit Staff");
+        buttonPanel.add(EditButton);
+
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
 

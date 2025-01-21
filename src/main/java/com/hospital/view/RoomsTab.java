@@ -25,7 +25,7 @@ public class RoomsTab {
         JPanel panel = new JPanel(new BorderLayout());
 
         // Table model setup
-        String[] columnNames = {"ID", "Room Number", "Capacity", "Room Type", "Status", "Patients In Room"};
+        String[] columnNames = {"id", "room_number", "capacity", "room_type", "status", "patients_in_room"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
 
@@ -43,6 +43,10 @@ public class RoomsTab {
         JButton addButton = new JButton("Add Room");
         addButton.addActionListener(e -> openAddRoomDialog());
         buttonPanel.add(addButton);
+
+        // Edit Button
+        JButton EditButton = new JButton("Edit Rooms");
+        buttonPanel.add(EditButton);
 
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
@@ -64,8 +68,7 @@ public class RoomsTab {
 
     private void loadRoomsData() {
         tableModel.setRowCount(0); // Clear existing rows
-     // ArrayList<Room> rooms = controller.getAllRooms();
-        ArrayList<Room> rooms = new ArrayList<>();
+        ArrayList<Room> rooms = controller.getAllRooms();
         for (Room room : rooms) {
             tableModel.addRow(new Object[]{
                     room.getRoomId(),
@@ -128,8 +131,7 @@ public class RoomsTab {
     }
 
     private void openEditRoomDialog(String roomId) {
-//        Room room = controller.getRoomById(roomId);
-        Room room = null;
+        Room room = controller.getRoomById(roomId);
         if (room == null) {
             JOptionPane.showMessageDialog(null, "Room not found.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -176,7 +178,7 @@ public class RoomsTab {
 
         JButton deleteButton = new JButton("Delete");
         deleteButton.addActionListener(e -> {
-//            controller.deleteRoomById(roomId);
+            controller.deleteRoomById(roomId);
             loadRoomsData();
             dialog.dispose();
         });

@@ -30,6 +30,7 @@ public class NursesTab {
         table = new JTable(tableModel);
 
         // Load data into the table
+        // Load data into the table
         loadNursesData();
 
         // Add JScrollPane
@@ -43,6 +44,10 @@ public class NursesTab {
         JButton addButton = new JButton("Add Nurse");
         addButton.addActionListener(e -> openAddNurseDialog());
         buttonPanel.add(addButton);
+
+        // Edit Button
+        JButton EditButton = new JButton("Edit Nurse");
+        buttonPanel.add(EditButton);
 
         // Add to panel
         panel.add(buttonPanel, BorderLayout.SOUTH);
